@@ -29,16 +29,6 @@ public class IosCompiler implements Compiler {
 
     public void compile() {
         System.out.println("Compiling IOS...");
-
-//TODO: node scripts/fixproject.js &&
-
-        // Build angular on target project (this should get output folder)
-        CommandOutput ngBuild = this.shell.run("ng build --configuration=production --aot=true --prod --buildOptimizer=true --optimization=true", "/Users/andreigarcia/WebstormProjects/angular-multiplatform");
-        if (ngBuild.isError() && !this.isIgnorableError(ngBuild.getMessage())) {
-            System.out.println("Erroor crítico: " + ngBuild.getMessage());
-            this.finishCompilation();
-            return;
-        }
         // cordova build (this should be done on angular-blademaster project with the output of last command)
 
         CommandOutput cordovaAddIos = this.shell.run("cordova platform add ios", "/Users/andreigarcia/WebstormProjects/angular-multiplatform");

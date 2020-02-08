@@ -23,17 +23,8 @@ public class MacOSCompiler implements Compiler {
 
     // This must bnot be async.
     public void compile() {
-        System.out.println("Compiling  Android...");
+        System.out.println("Compiling MacOS...");
 
-//TODO: node scripts/fixproject.js &&
-
-        // Build angular on target project (this should get output folder)
-        CommandOutput ngBuild = this.shell.run("ng build --configuration=production --aot=true --prod --buildOptimizer=true --optimization=true", "/Users/andreigarcia/WebstormProjects/angular-multiplatform");
-        if (ngBuild.isError() && !this.isIgnorableError(ngBuild.getMessage())) {
-            System.out.println("Erroor crítico: " + ngBuild.getMessage());
-            this.finishCompilation();
-            return;
-        }
         CommandOutput cordovaAddAndroid = this.shell.run("electron-builder build --mac", "/Users/andreigarcia/WebstormProjects/angular-multiplatform");
         if (cordovaAddAndroid.isError() && !this.isIgnorableError(cordovaAddAndroid.getMessage())) {
             System.out.println("Erroor crítico: " + cordovaAddAndroid.getMessage());

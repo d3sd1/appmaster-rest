@@ -1,0 +1,34 @@
+FROM debian:9
+
+# INSTALL ESSENTIALS
+RUN apt update -qq
+RUN apt install -y -qq sudo gnupg wget apt-transport-https ca-certificates lsb-release apt-utils
+
+# INSTALL JAVA 13
+RUN apt install -y software-properties-common
+RUN add-apt-repository -y ppa:linuxuprising/java
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EA8CACC073C3DB2A
+RUN apt update
+RUN echo oracle-java13-installer shared/accepted-oracle-license-v1-2 select true | sudo /usr/bin/debconf-set-selections
+RUN apt install -y oracle-java13-installer
+RUN apt install oracle-java13-set-default
+
+# INSTALL MAVEN
+RUN apt install -y maven
+
+
+# GENERATE CERTIFICATE
+RUN mkdir -p /var/ssl
+RUN cd /var/ssl
+RUN keytool -genkeypair -alias appmaster -keyalg RSA -keysize 2048 \
+    -storetype PKCS12 -keystore cert.p12 -storepass "appmasterssl" \
+    -noprompt -dname "cn=AppMaster, ou=AppMaster, o=AppMaster, c=AppMaster" \
+    -keypass "appmasterssl" -validity 10000
+
+# RUN JAR
+RUN mkdir -p /var/appmaster
+COPY target/appmaster-0.1.0.jar /var/appmaster
+
+ENTRYPOINT ["/usr/bin/java"]
+CMD ["-jar", "/var/appmaster/appmaster-0.1.0.jar"]
+

@@ -23,17 +23,7 @@ public class LinuxCompiler implements Compiler {
 
     // This must bnot be async.
     public void compile() {
-        System.out.println("Compiling  Android...");
-
-//TODO: node scripts/fixproject.js &&
-
-        // Build angular on target project (this should get output folder)
-        CommandOutput ngBuild = this.shell.run("ng build --configuration=production --aot=true --prod --buildOptimizer=true --optimization=true", "/Users/andreigarcia/WebstormProjects/angular-multiplatform");
-        if (ngBuild.isError() && !this.isIgnorableError(ngBuild.getMessage())) {
-            System.out.println("Erroor crítico: " + ngBuild.getMessage());
-            this.finishCompilation();
-            return;
-        }
+        System.out.println("Compiling Linux...");
         CommandOutput cordovaAddAndroid = this.shell.run("electron-builder build --linux", "/Users/andreigarcia/WebstormProjects/angular-multiplatform");
         if (cordovaAddAndroid.isError() && !this.isIgnorableError(cordovaAddAndroid.getMessage())) {
             System.out.println("Erroor crítico: " + cordovaAddAndroid.getMessage());

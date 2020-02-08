@@ -10,6 +10,9 @@ import java.io.InputStreamReader;
 
 @Service
 public class Shell {
+    public CommandOutput run(String command) {
+        return this.run(command, "/");
+    }
     public CommandOutput run(String command, String path) {
         CommandOutput commandOutput = new CommandOutput();
         StringBuilder output = new StringBuilder();

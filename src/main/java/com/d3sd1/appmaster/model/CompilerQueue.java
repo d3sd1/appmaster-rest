@@ -13,18 +13,20 @@ import java.util.List;
 public class CompilerQueue {
 
     private IosCompiler iosCompiler;
+    private AngularCliCompiler angularCliCompiler;
     private AndroidCompiler androidCompiler;
     private WindowsCompiler windowsCompiler;
     private LinuxCompiler linuxCompiler;
     private MacOSCompiler macOSCompiler;
     private boolean runningQueue = false;
 
-    public CompilerQueue(IosCompiler iosCompiler, AndroidCompiler androidCompiler, WindowsCompiler windowsCompiler, LinuxCompiler linuxCompiler, MacOSCompiler macOSCompiler) {
+    public CompilerQueue(IosCompiler iosCompiler, AndroidCompiler androidCompiler, WindowsCompiler windowsCompiler, LinuxCompiler linuxCompiler, MacOSCompiler macOSCompiler, AngularCliCompiler angularCliCompiler) {
         this.iosCompiler = iosCompiler;
         this.androidCompiler = androidCompiler;
         this.windowsCompiler = windowsCompiler;
         this.linuxCompiler = linuxCompiler;
         this.macOSCompiler = macOSCompiler;
+        this.angularCliCompiler = angularCliCompiler;
     }
 
     private List<Compilation> pendingCompilations = new ArrayList<>();
@@ -44,11 +46,18 @@ public class CompilerQueue {
     }
 
     public void triggerQueue() {
+        this.triggerQueue(false);
+    }
+    public void triggerQueue(boolean hasPrev) {
         if (this.runningQueue || this.pendingCompilations.isEmpty()) {
             return; // If queue already running, ignore this.
         }
         this.runningQueue = true;
         Compilation platform = this.pendingCompilations.get(0);
+
+        if(!hasPrev) {
+            this.angularCliCompiler.compile();
+        }
 
         switch (platform) {
             case IOS:
@@ -72,6 +81,6 @@ public class CompilerQueue {
 
         this.pendingCompilations.remove(0);
         this.runningQueue = false;
-        this.triggerQueue();
+        this.triggerQueue(true);
     }
 }

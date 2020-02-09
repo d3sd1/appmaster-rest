@@ -1,0 +1,3 @@
+FROM alpine:latest
+ENV  MOUNTDIR=/tmp
+CMD  nsenter -t $(pgrep docker-init) -m -- mount --verbose --make-shared ${MOUNTDIR}

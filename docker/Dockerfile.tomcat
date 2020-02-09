@@ -1,9 +1,14 @@
 FROM debian:9
-
+VOLUME /var/appmaster
+WORKDIR /var/appmaster
 # INSTALL ESSENTIALS
 RUN apt update -qq
 RUN apt install -y -qq sudo gnupg wget apt-transport-https ca-certificates lsb-release apt-utils
 
+#TODO: que no pete con el SSL
+#TODO: que la base de datos rethinkdb guarde los datos
+#TODO: instegracion continua de docker (se copian los ficheros de docker y el jar y ya esta, despues de compilar).
+#TODO: script para autoinstalar docker y como añadir nuevo srv al balanceo (para el futuro).
 # INSTALL JAVA 13
 RUN apt install -y software-properties-common
 RUN add-apt-repository -y ppa:linuxuprising/java
@@ -18,17 +23,17 @@ RUN apt install -y maven
 
 
 # GENERATE CERTIFICATE
-RUN mkdir -p /var/ssl
-RUN cd /var/ssl
 RUN keytool -genkeypair -alias appmaster -keyalg RSA -keysize 2048 \
-    -storetype PKCS12 -keystore cert.p12 -storepass "appmasterssl" \
+    -storetype PKCS12 -keystore appmaster.p12 -storepass "appmasterssl" \
     -noprompt -dname "cn=AppMaster, ou=AppMaster, o=AppMaster, c=AppMaster" \
     -keypass "appmasterssl" -validity 10000
-
+RUN pwd
+RUN ls -la /var/appmaster
+RUN touch ./hola.txrt
+RUN touch /var/appmaster/hola.txrt
+COPY . /var/appmaster
 # RUN JAR
-RUN mkdir -p /var/appmaster
-COPY target/appmaster-0.1.0.jar /var/appmaster
-
+RUN mkdir -p /var/appmaster-runtime
+COPY target/appmaster-0.1.0.jar /var/appmaster-runtime
 ENTRYPOINT ["/usr/bin/java"]
-CMD ["-jar", "/var/appmaster/appmaster-0.1.0.jar"]
-
+CMD ["-jar", "/var/appmaster-runtime/appmaster-0.1.0.jar"]

@@ -1,4 +1,4 @@
-version: '3.2'
+version: '3.7'
 services:
     rethinkdb:
         container_name: appmaster-rethinkdb
@@ -8,19 +8,18 @@ services:
         ports:
             - "0.0.0.0:8080:8080"
         network_mode: "bridge"
-        volumes:
-            - ./docker/data:/rethinkdb
+
     tomcat:
         container_name: appmaster-tomcat
         depends_on: [rethinkdb]
         build:
             context: .
             dockerfile: docker/Dockerfile.tomcat
-
-        volumes:
-            - type: bind
-              source: ./data/ssl
-              target: /var/ssl
         ports:
             - "0.0.0.0:443:443"
         network_mode: "bridge"
+
+        volumes:
+            - type: bind
+              source: /Users/andreigarcia/appmaster
+              target: /var/appmaster

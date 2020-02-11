@@ -5,3 +5,4 @@ script:
   - mvnw clean install -B
   - docker-compose down --remove-orphans
   - mvn package
+  - scp target/*.jar deployments@167.86.78.132:/var/deployments/artifacts/rest.jar

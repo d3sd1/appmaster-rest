@@ -1,9 +1,8 @@
 FROM debian:9
-VOLUME /var/appmaster
 WORKDIR /var/appmaster
 # INSTALL ESSENTIALS
 RUN apt update -qq
-RUN apt install -y -qq sudo gnupg wget apt-transport-https ca-certificates lsb-release apt-utils
+RUN apt install -y -qq sudo gnupg wget apt-transport-https ca-certificates lsb-release apt-utils nano tree
 
 #TODO: que no pete con el SSL
 #TODO: que la base de datos rethinkdb guarde los datos
@@ -28,10 +27,14 @@ RUN keytool -genkeypair -alias appmaster -keyalg RSA -keysize 2048 \
     -noprompt -dname "cn=AppMaster, ou=AppMaster, o=AppMaster, c=AppMaster" \
     -keypass "appmasterssl" -validity 10000
 RUN pwd
-RUN ls -la /var/appmaster
+RUN ls -la ~
 RUN touch ./hola.txrt
-RUN touch /var/appmaster/hola.txrt
-COPY . /var/appmaster
+RUN  mkdir -p /var/appmaster
+RUN echo test > /var/appmaster/test.txt
+RUN ls -la /var/appmaster
+RUN cp -rf /var/cache /var/appmaster
+RUN whoami && groups && tree /var
+#COPY . /var/appmaster
 # RUN JAR
 RUN mkdir -p /var/appmaster-runtime
 COPY target/appmaster-0.1.0.jar /var/appmaster-runtime

@@ -18,8 +18,3 @@ services:
         ports:
             - "0.0.0.0:443:443"
         network_mode: "bridge"
-
-        volumes:
-            - type: bind
-              source: /Users/andreigarcia/appmaster
-              target: /var/appmaster

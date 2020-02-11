@@ -42,5 +42,3 @@ echo "-----BEGIN RSA PRIVATE KEY-----
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC7Z69HFYd+YlI6REXk8KE//QeBGEGvezIWOBKzDECQu90V4aBi5OVahcumjnEpnPleeG1uJCj07lWAgh1MjQ77fvv9MwGiCN5D+ay8zGsaHg0UoaOUu/ZgM4pR9wUHQjOkQZGWwQ3jLVC2+iH/k/616zUIztG3XQPjih2L0aCCEXFGvg7QWinn82V4h9K4NzSJH3UDUp4heDoH5mSw3c4+aHCN0msx40FPR4tsllL0kNNRzE9CpnN56FwpUCKiRlBLeUcZtLQZPiRosJcp5L7nRdaLQbp6xgg6hB/8sFYUc9ZYL27jixnS8bFljNYvG2uTMqhxP1RcVlNOcUSXeihh root@vmi244575.contaboserver.net" > /home/deployments/.ssh/id_rsa.pub
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC7Z69HFYd+YlI6REXk8KE//QeBGEGvezIWOBKzDECQu90V4aBi5OVahcumjnEpnPleeG1uJCj07lWAgh1MjQ77fvv9MwGiCN5D+ay8zGsaHg0UoaOUu/ZgM4pR9wUHQjOkQZGWwQ3jLVC2+iH/k/616zUIztG3XQPjih2L0aCCEXFGvg7QWinn82V4h9K4NzSJH3UDUp4heDoH5mSw3c4+aHCN0msx40FPR4tsllL0kNNRzE9CpnN56FwpUCKiRlBLeUcZtLQZPiRosJcp5L7nRdaLQbp6xgg6hB/8sFYUc9ZYL27jixnS8bFljNYvG2uTMqhxP1RcVlNOcUSXeihh root@vmi244575.contaboserver.net" >> /home/deployments/.ssh/authorized_keys
 sudo chown -R deployments /home/deployments/.ssh/
-
-echo "PUBLIC KEY FOR "
